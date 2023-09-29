@@ -55,13 +55,15 @@ const login = async (req, res, next) => {
   const generateAuthToken = (val) => {
     
     const token = jwt.sign({ id: val.id }, process.env.JWTPRIVATEKEY, { expiresIn: 100000 });
-
+  
     return token;
   };
   const hashedPassword = bcrypt.hashSync(password)
+ 
   try {
     // check if the user exists
     const user = await generalInfo.findOne({ where: {userName: userName } });
+    console.log(user, "sdlmld mndns")
   
     if (!user) return res.status(400).json({ msg: "User not exist" })
     bcrypt.compare(password, user.password, (err, data) => {

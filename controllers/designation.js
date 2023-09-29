@@ -97,10 +97,8 @@ const getAlldesignation = async (req, res) => {
 
 const getDepartmentById = async (req, res) => {
   let depId = req.params.departmentId
-  console.log(depId, 'exisoryss')
   let existingDesignation;
   existingDesignation = await Designation.findAll({ where: { department: depId } });
-  console.log(existingDesignation, 'exisory')
   if (existingDesignation.length === 0) {
     return res.status(400).json({ message: "No designations found" });
   }
