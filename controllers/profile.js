@@ -19,8 +19,12 @@ const getProfile = async (req, res) => {
     return res.status(200).json({ response: { success: true, profile: existingGetProfile } })
 }
 const getAllProfile = async (req, res) => {
-    // let existingGetProfile = { generalInfoId, EducationInfo, WorkInfo, DocumentInfo };
-    // console.log(existingGetProfile,"sdm")
+    let existingGetProfile = { generalInfoId, EducationInfo, WorkInfo, DocumentInfo };
+    existingGetProfile.generalInfoId = await profile.findOne({ where: { user: req.user.id } })
+
+    if (!existingGetProfile) {
+        return res.status(400).json({ response: { success: false, message: "No Profile Found" } })
+    }
     let val = await profile.findAll({
         where: { user: req.user.id },attributes:['id'], include: [{
             model: generalInfoId,
